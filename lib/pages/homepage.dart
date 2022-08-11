@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_xiecheng/widget/search_bar.dart';
 import 'package:card_swiper/card_swiper.dart';
 
 class Homepage extends StatefulWidget {
@@ -8,6 +9,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _Homepage extends State<Homepage> {
+  Color _fixedBarColor = Colors.blue;
 
   List<String> bannerList = [
     'https://dimg04.c-ctrip.com/images/0zg6z120009hxl5q9CCF7.jpg',
@@ -19,17 +21,103 @@ class _Homepage extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xfff2f2f2),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Stack(
-          children: [
-            _banner(),
-          ],  
-        ),
-      )
+      body: Stack(
+        children: [
+          _listContainer(),
+          _appBar(),
+        ],  
+      ),
     );
   }
 
+  Widget _appBar() {
+    return Column(
+      children: [
+        AnimatedContainer(
+          width: MediaQuery.of(context).size.width,
+          height: 60,
+          // margin: const EdgeInsets.all(10),
+          duration: const Duration(milliseconds: 300),
+          color: _fixedBarColor,
+          curve: Curves.linear,
+          child: const SearchBar(),
+        )
+      ],
+    );
+  }
+
+  _onScroll(offset) {
+    if (offset >= 120 && _fixedBarColor == Colors.blue) {
+      setState(() {
+        _fixedBarColor = Colors.white;
+      });
+    }
+
+    if (offset < 120 && _fixedBarColor == Colors.white) {
+      setState(() {
+        _fixedBarColor = Colors.blue;
+      });
+    }
+  }
+
+  Widget _listContainer() {
+    return NotificationListener(
+      onNotification: (scrollNotification) {
+        if (scrollNotification is ScrollUpdateNotification && scrollNotification.depth == 0) {
+          _onScroll(scrollNotification.metrics.pixels);
+        }
+        return true;
+      },
+      child: ListView(
+        padding: const EdgeInsets.only(
+          left: 8,
+          right: 8,
+          bottom: 8,
+        ),
+        children: [
+          _banner(),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+          Text('1111111111'),
+        ],
+      )
+    );
+  }
 
   Widget _banner() {
     return Container(

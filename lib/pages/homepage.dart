@@ -16,13 +16,15 @@ class Homepage extends StatefulWidget {
 }
 
 class _Homepage extends State<Homepage> {
-  Color _fixedBarColor = Colors.blue;
-
   List<CommonModel> localNavList = [];
   List<CommonModel> bannerList = [];
   List<CommonModel> subNavList = [];
 
+  final defaultFixedColor = [Color.fromARGB(255, 0, 111, 245), Color.fromARGB(255, 55, 164, 255)];
+  final scrollFixedColor = [Colors.white, Colors.white];
+
   bool _loading = true;
+  bool _isBarInTop = true;
 
   @override
   void initState() {
@@ -69,7 +71,14 @@ class _Homepage extends State<Homepage> {
           width: MediaQuery.of(context).size.width,
           height: 60,
           duration: const Duration(milliseconds: 300),
-          color: _fixedBarColor,
+          // color: _fixedBarColor,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: const Alignment(0.0, 1),
+              colors: _isBarInTop ? defaultFixedColor : scrollFixedColor,
+            ),
+          ),
           curve: Curves.linear,
           child: const SearchBar(),
         )
@@ -78,17 +87,9 @@ class _Homepage extends State<Homepage> {
   }
 
   _onScroll(offset) {
-    if (offset >= 120 && _fixedBarColor == Colors.blue) {
-      setState(() {
-        _fixedBarColor = Colors.white;
-      });
-    }
-
-    if (offset < 120 && _fixedBarColor == Colors.white) {
-      setState(() {
-        _fixedBarColor = Colors.blue;
-      });
-    }
+    setState(() {
+      _isBarInTop = offset < 120;
+    });
   }
 
   Widget _listContainer() {
@@ -105,8 +106,8 @@ class _Homepage extends State<Homepage> {
         ),
         child: ListView(
           padding: const EdgeInsets.only(
-            left: 8,
-            right: 8,
+            left: 10,
+            right: 10,
             bottom: 8,
             top: 10,
           ),
